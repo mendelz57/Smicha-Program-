@@ -8,10 +8,17 @@ export default function ContactPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // Save to DB
     await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
+    });
+    // Send via Formspree
+    await fetch('https://formspree.io/f/xwvdzqnl', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
     });
     setSent(true);
   }

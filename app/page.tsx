@@ -45,13 +45,13 @@ export default async function Home() {
       {/* Two offerings */}
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '5rem 2rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
         <div style={{ background: '#fff', borderTop: '3px solid #162B22', padding: '2.5rem', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-          <p style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4912A', fontWeight: '600', marginBottom: '1rem' }}>Self-Paced Learning</p>
-          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.6rem', fontWeight: '400', color: '#162B22', marginBottom: '1rem', lineHeight: 1.2 }}>Learn on Your Schedule</h2>
+          <p style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4912A', fontWeight: '600', marginBottom: '1rem' }}>The Program</p>
+          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.6rem', fontWeight: '400', color: '#162B22', marginBottom: '1rem', lineHeight: 1.2 }}>World-Class Instruction</h2>
           <p style={{ color: '#4A5A55', lineHeight: 1.7, fontSize: '0.95rem', marginBottom: '1.5rem' }}>
-            Each chapter contains video lessons from leading Poskim, followed by a 15-question comprehension test. You must score 80% or higher before advancing — ensuring mastery at every stage.
+            Shiurim are given by Rabbi Mendel Zajac of Los Angeles, California. Tests are administered by Rabbi Chazan and Rabbi Tauber.
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-            {['Video lessons organized by chapter', '15-question quiz per video', '80% passing score to advance', 'Full progress tracking'].map(item => (
+            {['Shiurim by Rabbi Mendel Zajac', 'Tests by Rabbi Chazan and Rabbi Tauber', '15-question quiz per video', '80% passing score to advance'].map(item => (
               <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontSize: '0.9rem', color: '#3A4A45' }}>
                 <span style={{ color: '#C4912A', marginTop: '2px', flexShrink: 0 }}>✦</span> {item}
               </li>

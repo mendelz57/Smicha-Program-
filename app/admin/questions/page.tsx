@@ -3,6 +3,7 @@ import { videos, questions, questionOptions } from '@/lib/schema';
 import { eq } from 'drizzle-orm';
 import Link from 'next/link';
 import QuestionsEditor from './QuestionsEditor';
+import VideoSelector from './VideoSelector';
 
 export default async function QuestionsPage({ searchParams }: { searchParams: { videoId?: string } }) {
   const allVideos = await db.query.videos.findMany({ orderBy: (v, { asc }) => [asc(v.order)] });
@@ -34,14 +35,7 @@ export default async function QuestionsPage({ searchParams }: { searchParams: { 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-white rounded-xl shadow p-6 mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">Select a video to manage its questions</label>
-          <select
-            defaultValue={selectedVideoId || ''}
-            onChange={e => { if (e.target.value) window.location.href = `/admin/questions?videoId=${e.target.value}`; }}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <option value="">Choose a video...</option>
-            {allVideos.map(v => <option key={v.id} value={v.id}>{v.title}</option>)}
-          </select>
+          <VideoSelector videos={allVideos} selectedVideoId={selectedVideoId} />
         </div>
 
         {selectedVideo && (

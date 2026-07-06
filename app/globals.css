@@ -31,3 +31,13 @@ body {
     display: none !important;
   }
 }
+
+.show-mobile {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .show-mobile {
+    display: flex !important;
+  }
+}

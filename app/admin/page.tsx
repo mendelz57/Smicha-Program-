@@ -9,76 +9,70 @@ export default async function AdminDashboard() {
   const [videoCount] = await db.select({ count: count() }).from(videos);
   const [chapterCount] = await db.select({ count: count() }).from(chapters);
 
-  // Students who completed all videos
   const allStudents = await db.query.users.findMany({ where: eq(users.role, 'student') });
   const allVideos = await db.query.videos.findMany();
   const totalVideos = allVideos.length;
 
   const completedStudents = [];
   for (const student of allStudents) {
-    const prog = await db.query.studentProgress.findMany({
-      where: eq(studentProgress.userId, student.id),
-    });
-    const completedCount = prog.filter(p => p.completed).length;
-    if (totalVideos > 0 && completedCount >= totalVideos) {
+    const prog = await db.query.studentProgress.findMany({ where: eq(studentProgress.userId, student.id) });
+    if (totalVideos > 0 && prog.filter(p => p.completed).length >= totalVideos) {
       completedStudents.push(student);
     }
   }
 
   const cards = [
-    { label: 'Students', value: userCount.count, href: '/admin/users', color: 'bg-blue-500' },
-    { label: 'Chapters', value: chapterCount.count, href: '/admin/chapters', color: 'bg-purple-500' },
-    { label: 'Videos', value: videoCount.count, href: '/admin/videos', color: 'bg-indigo-500' },
-    { label: 'Completions', value: completedStudents.length, href: '/admin/users', color: 'bg-green-500' },
+    { label: 'Students', value: userCount.count, href: '/admin/users' },
+    { label: 'Chapters', value: chapterCount.count, href: '/admin/chapters' },
+    { label: 'Videos', value: videoCount.count, href: '/admin/chapters' },
+    { label: 'Completions', value: completedStudents.length, href: '/admin/users' },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-indigo-800 text-white px-6 py-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold">Smicha Program — Admin</h1>
+    <div style={{ minHeight: '100vh', background: '#F6F1E7', fontFamily: 'system-ui, sans-serif' }}>
+      <header style={{ background: '#162B22', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em' }}>Smicha Program — Admin</span>
         <form action={async () => { 'use server'; await signOut({ redirectTo: '/login' }); }}>
-          <button type="submit" className="text-sm text-indigo-200 hover:text-white">Sign out</button>
+          <button type="submit" style={{ background: 'none', border: 'none', color: '#A8C0B8', fontSize: '0.85rem', cursor: 'pointer' }}>Sign out</button>
         </form>
       </header>
 
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '2.5rem 1.5rem' }}>
+        {/* Stats */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
           {cards.map(card => (
-            <Link key={card.label} href={card.href} className="bg-white rounded-xl shadow p-5 hover:shadow-md transition">
-              <div className={`w-10 h-10 ${card.color} rounded-lg mb-3`}></div>
-              <p className="text-3xl font-bold text-gray-800">{card.value}</p>
-              <p className="text-gray-500 text-sm mt-1">{card.label}</p>
+            <Link key={card.label} href={card.href} style={{ background: '#fff', borderTop: '3px solid #C4912A', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', textDecoration: 'none', display: 'block' }}>
+              <p style={{ fontSize: '2.2rem', fontWeight: '700', color: '#162B22', fontFamily: 'Georgia, serif' }}>{card.value}</p>
+              <p style={{ fontSize: '0.8rem', color: '#8A9A95', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '600', marginTop: '0.25rem' }}>{card.label}</p>
             </Link>
           ))}
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow p-6">
-            <h2 className="font-bold text-lg text-gray-800 mb-4">Quick Actions</h2>
-            <div className="space-y-3">
-              <Link href="/admin/chapters" className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-indigo-50 transition">
-                <span className="text-indigo-600">+</span> Add Chapter / Video
-              </Link>
-              <Link href="/admin/questions" className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-indigo-50 transition">
-                <span className="text-indigo-600">✎</span> Manage Questions
-              </Link>
-              <Link href="/admin/users" className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-indigo-50 transition">
-                <span className="text-indigo-600">👥</span> View Students
-              </Link>
+        {/* Quick Actions */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+          <div style={{ background: '#fff', borderTop: '3px solid #162B22', padding: '2rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.3rem', fontWeight: '400', color: '#162B22', marginBottom: '1.25rem' }}>Quick Actions</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {[
+                { href: '/admin/chapters', label: '+ Add Chapter / Video' },
+                { href: '/admin/questions', label: '✎  Manage Questions' },
+                { href: '/admin/users', label: '👥  View Students' },
+              ].map(item => (
+                <Link key={item.href} href={item.href} style={{ display: 'block', padding: '0.75rem 1rem', background: '#F6F1E7', color: '#162B22', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500', borderLeft: '3px solid #C4912A' }}>
+                  {item.label}
+                </Link>
+              ))}
             </div>
           </div>
 
           {completedStudents.length > 0 && (
-            <div className="bg-white rounded-xl shadow p-6">
-              <h2 className="font-bold text-lg text-gray-800 mb-4">Program Completions 🎓</h2>
-              <div className="space-y-2">
+            <div style={{ background: '#162B22', borderTop: '3px solid #C4912A', padding: '2rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+              <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.3rem', fontWeight: '400', color: '#F6F1E7', marginBottom: '1.25rem' }}>Program Completions</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {completedStudents.map(s => (
-                  <div key={s.id} className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                    <span className="text-green-600 font-bold">✓</span>
-                    <div>
-                      <p className="font-medium text-gray-800">{s.name}</p>
-                      <p className="text-xs text-gray-500">{s.email}</p>
-                    </div>
+                  <div key={s.id} style={{ padding: '0.75rem 1rem', background: 'rgba(196,145,42,0.1)', borderLeft: '3px solid #C4912A' }}>
+                    <p style={{ fontWeight: '600', color: '#F6F1E7', fontSize: '0.9rem' }}>{s.name}</p>
+                    <p style={{ fontSize: '0.8rem', color: '#A8C0B8' }}>{s.email}</p>
                   </div>
                 ))}
               </div>

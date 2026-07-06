@@ -33,7 +33,7 @@ export default async function Home() {
           </h1>
           <div style={{ width: '3rem', height: '2px', background: '#C4912A', margin: '0 auto 1.75rem' }}></div>
           <p style={{ fontSize: '1.15rem', lineHeight: 1.7, color: '#A8C0B8', maxWidth: '560px', margin: '0 auto 2.5rem' }}>
-            Master the four core areas of practical Halacha: Basar Bechalav, Taruvos, Hagalas Kelim, and Hilchos Shabbos, through animated video lessons, visual charts, and a weekly live shiur with your cohort. Finish your Smicha in as little as one year.
+            Master the four core areas of practical Halacha: Basar Bechalav, Taruvos, Hagalas Kelim, and Hilchos Shabbos, through animated video lessons, visual charts, and an optional weekly live shiur. Finish your Smicha in as little as one year.
           </p>
           <Link href="/register" style={{ display: 'inline-block', background: '#C4912A', color: '#162B22', padding: '0.9rem 2.5rem', fontWeight: '700', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.02em' }}>
             Begin Your Free 7-Day Trial

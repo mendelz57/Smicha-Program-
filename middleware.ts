@@ -1,18 +1,20 @@
-import { auth } from '@/lib/auth';
+import NextAuth from 'next-auth';
+import { authConfig } from '@/lib/auth.config';
 import { NextResponse } from 'next/server';
+
+const { auth } = NextAuth(authConfig);
 
 export default auth(async (req) => {
   const { pathname } = req.nextUrl;
   const session = req.auth;
 
-  const publicPaths = ['/', '/login', '/register', '/api/auth', '/api/register'];
+  const publicPaths = ['/', '/login', '/register', '/contact', '/api/auth', '/api/register'];
   if (publicPaths.some(p => pathname.startsWith(p))) return NextResponse.next();
 
   if (!session) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  // Admin paths
   if (pathname.startsWith('/admin')) {
     if ((session.user as any)?.role !== 'admin') {
       return NextResponse.redirect(new URL('/student', req.url));

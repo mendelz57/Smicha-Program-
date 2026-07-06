@@ -13,16 +13,18 @@ export default async function Home() {
     <div className="min-h-screen" style={{ fontFamily: 'system-ui, sans-serif', background: '#F6F1E7' }}>
       {/* Hero */}
       <div style={{ background: '#162B22', color: '#F6F1E7', padding: '0' }}>
-        <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.25rem', borderBottom: '1px solid rgba(196,145,42,0.2)' }}>
-          <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', letterSpacing: '0.05em', color: '#C4912A' }}>
-            Smicha Program
-          </span>
-          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-            <Link href="/contact" className="hide-mobile" style={{ color: '#C4D4CC', fontSize: '0.85rem', textDecoration: 'none' }}>Contact</Link>
-            <Link href="/login" className="hide-mobile" style={{ color: '#C4D4CC', fontSize: '0.85rem', textDecoration: 'none' }}>Sign In</Link>
-            <Link href="/register" style={{ background: '#C4912A', color: '#162B22', padding: '0.45rem 1rem', fontSize: '0.85rem', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-              Free Trial
-            </Link>
+        <nav style={{ borderBottom: '1px solid rgba(196,145,42,0.2)' }}>
+          <div style={{ maxWidth: '900px', margin: '0 auto', padding: '1rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', letterSpacing: '0.05em', color: '#C4912A' }}>
+              Smicha Program
+            </span>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              <Link href="/contact" className="hide-mobile" style={{ color: '#C4D4CC', fontSize: '0.85rem', textDecoration: 'none' }}>Contact</Link>
+              <Link href="/login" className="hide-mobile" style={{ color: '#C4D4CC', fontSize: '0.85rem', textDecoration: 'none' }}>Sign In</Link>
+              <Link href="/register" style={{ background: '#C4912A', color: '#162B22', padding: '0.45rem 1rem', fontSize: '0.85rem', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                Free Trial
+              </Link>
+            </div>
           </div>
         </nav>
 

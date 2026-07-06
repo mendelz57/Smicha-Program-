@@ -13,26 +13,15 @@ export async function POST(req: NextRequest) {
   // Always save to database first
   await db.insert(contactMessages).values({ name, email, message });
 
-  // Try to send email
+  // Send email via Formspree
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
-      from: 'Smicha Program <onboarding@resend.dev>',
-      to: 'mandmzajac@gmail.com',
-      replyTo: email,
-      subject: `New Contact Form Message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`,
-      html: `
-        <h2>New message from the Smicha Program contact form</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+    await fetch('https://formspree.io/f/xwvdzqnl', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name, email, message }),
     });
   } catch (err) {
-    console.error('Email send failed:', err);
-    // Still return success — message is saved to DB
+    console.error('Formspree send failed:', err);
   }
 
   return NextResponse.json({ success: true });

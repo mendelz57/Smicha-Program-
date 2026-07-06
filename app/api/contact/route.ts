@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
   await resend.emails.send({
     from: 'Smicha Program <onboarding@resend.dev>',
-    to: 'rabbimendel@chabadsola.com',
+    to: 'info@jewishvirtualacademy.com',
     subject: `New Contact Form Message from ${name}`,
     html: `
       <h2>New message from the Smicha Program contact form</h2>

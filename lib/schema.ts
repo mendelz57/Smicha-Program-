@@ -52,6 +52,14 @@ export const questionOptions = pgTable('question_options', {
   isCorrect: boolean('is_correct').default(false).notNull(),
 });
 
+export const contactMessages = pgTable('contact_messages', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  message: text('message').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const studentProgress = pgTable('student_progress', {
   id: serial('id').primaryKey(),
   userId: integer('user_id').references(() => users.id).notNull(),

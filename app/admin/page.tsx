@@ -57,6 +57,7 @@ export default async function AdminDashboard() {
                 { href: '/admin/chapters', label: '+ Add Chapter / Video' },
                 { href: '/admin/questions', label: '✎  Manage Questions' },
                 { href: '/admin/users', label: '👥  View Students' },
+              { href: '/admin/messages', label: '✉  Contact Messages' },
               ].map(item => (
                 <Link key={item.href} href={item.href} style={{ display: 'block', padding: '0.75rem 1rem', background: '#F6F1E7', color: '#162B22', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500', borderLeft: '3px solid #C4912A' }}>
                   {item.label}

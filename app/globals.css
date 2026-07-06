@@ -25,3 +25,9 @@ body {
     text-wrap: balance;
   }
 }
+
+@media (max-width: 600px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}

@@ -1,101 +1,108 @@
-import Image from "next/image";
+import { redirect } from 'next/navigation';
+import { auth } from '@/lib/auth';
+import Link from 'next/link';
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+  if (session) {
+    if ((session.user as any).role === 'admin') redirect('/admin');
+    redirect('/student');
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen" style={{ fontFamily: 'system-ui, sans-serif', background: '#F6F1E7' }}>
+      {/* Hero */}
+      <div style={{ background: '#162B22', color: '#F6F1E7', padding: '0' }}>
+        <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.25rem 2.5rem', borderBottom: '1px solid rgba(196,145,42,0.2)' }}>
+          <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', letterSpacing: '0.05em', color: '#C4912A' }}>
+            Smicha Program
+          </span>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <Link href="/login" style={{ color: '#C4D4CC', fontSize: '0.9rem', textDecoration: 'none' }}>Sign In</Link>
+            <Link href="/register" style={{ background: '#C4912A', color: '#162B22', padding: '0.5rem 1.25rem', fontSize: '0.9rem', fontWeight: '600', textDecoration: 'none' }}>
+              Start Free Trial
+            </Link>
+          </div>
+        </nav>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <div style={{ maxWidth: '780px', margin: '0 auto', textAlign: 'center', padding: '6rem 2rem 5rem' }}>
+          <div style={{ fontFamily: 'Georgia, serif', fontSize: '5rem', color: '#C4912A', lineHeight: 1, marginBottom: '1.5rem', opacity: 0.6 }}>ס</div>
+          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: '400', lineHeight: 1.15, textWrap: 'balance', marginBottom: '1.5rem', color: '#F6F1E7' }}>
+            An Online Smicha Program<br />with Animated Videos, Charts<br />& Weekly Live Shiurim
+          </h1>
+          <div style={{ width: '3rem', height: '2px', background: '#C4912A', margin: '0 auto 1.75rem' }}></div>
+          <p style={{ fontSize: '1.15rem', lineHeight: 1.7, color: '#A8C0B8', maxWidth: '560px', margin: '0 auto 2.5rem' }}>
+            Master the four core areas of practical Halacha: Basar Bechalav, Taruvos, Hagalas Kelim, and Hilchos Shabbos, through animated video lessons, visual charts, and a weekly live shiur with your cohort. Finish your Smicha in as little as one year.
+          </p>
+          <Link href="/register" style={{ display: 'inline-block', background: '#C4912A', color: '#162B22', padding: '0.9rem 2.5rem', fontWeight: '700', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.02em' }}>
+            Begin Your Free 7-Day Trial
+          </Link>
+          <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#6A8880' }}>No commitment during your trial. $300/month after.</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
+      {/* Two offerings */}
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '5rem 2rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+        <div style={{ background: '#fff', borderTop: '3px solid #162B22', padding: '2.5rem', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
+          <p style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4912A', fontWeight: '600', marginBottom: '1rem' }}>Self-Paced Learning</p>
+          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.6rem', fontWeight: '400', color: '#162B22', marginBottom: '1rem', lineHeight: 1.2 }}>Learn on Your Schedule</h2>
+          <p style={{ color: '#4A5A55', lineHeight: 1.7, fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+            Each chapter contains video lessons from leading Poskim, followed by a 15-question comprehension test. You must score 80% or higher before advancing — ensuring mastery at every stage.
+          </p>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+            {['Video lessons organized by chapter', '15-question quiz per video', '80% passing score to advance', 'Full progress tracking'].map(item => (
+              <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontSize: '0.9rem', color: '#3A4A45' }}>
+                <span style={{ color: '#C4912A', marginTop: '2px', flexShrink: 0 }}>✦</span> {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div style={{ background: '#162B22', borderTop: '3px solid #C4912A', padding: '2.5rem' }}>
+          <p style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4912A', fontWeight: '600', marginBottom: '1rem' }}>Live Learning</p>
+          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.6rem', fontWeight: '400', color: '#F6F1E7', marginBottom: '1rem', lineHeight: 1.2 }}>Weekly Live Shiur</h2>
+          <p style={{ color: '#A8C0B8', lineHeight: 1.7, fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+            Join a live weekly shiur with your cohort. Ask questions, review difficult sugyos, and learn alongside other students in real time. Details provided upon enrollment.
+          </p>
+          <Link href="/register" style={{ display: 'inline-block', border: '1px solid #C4912A', color: '#C4912A', padding: '0.7rem 1.75rem', fontSize: '0.9rem', fontWeight: '600', textDecoration: 'none', letterSpacing: '0.02em' }}>
+            Enroll to Join
+          </Link>
+        </div>
+      </div>
+
+      {/* Subjects */}
+      <div style={{ background: '#162B22', padding: '4rem 2rem' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4912A', fontWeight: '600', marginBottom: '1rem' }}>Curriculum</p>
+          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '2rem', fontWeight: '400', color: '#F6F1E7', marginBottom: '3rem' }}>Four Core Areas of Halacha</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1px', background: 'rgba(196,145,42,0.2)', direction: 'rtl' }}>
+            {[
+              { heb: 'בשר בחלב', eng: 'Basar Bechalav' },
+              { heb: 'תערובות', eng: 'Taruvos' },
+              { heb: 'הגעלת כלים', eng: 'Hagalas Kelim' },
+              { heb: 'שבת', eng: 'Hilchos Shabbos' },
+            ].map(subject => (
+              <div key={subject.eng} style={{ background: '#162B22', padding: '2rem 1.5rem', textAlign: 'center' }}>
+                <div style={{ fontFamily: 'Georgia, serif', fontSize: '1.6rem', color: '#C4912A', marginBottom: '0.5rem', direction: 'rtl' }}>{subject.heb}</div>
+                <div style={{ fontSize: '0.85rem', color: '#A8C0B8', letterSpacing: '0.03em' }}>{subject.eng}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Final CTA */}
+      <div style={{ textAlign: 'center', padding: '5rem 2rem', background: '#F6F1E7' }}>
+        <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '2rem', fontWeight: '400', color: '#162B22', marginBottom: '1rem' }}>Ready to begin?</h2>
+        <p style={{ color: '#4A5A55', marginBottom: '2rem', fontSize: '1rem' }}>Start with a free 7-day trial. No credit card required.</p>
+        <Link href="/register" style={{ display: 'inline-block', background: '#162B22', color: '#F6F1E7', padding: '0.9rem 2.5rem', fontWeight: '700', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.02em' }}>
+          Start Free Trial
+        </Link>
+        <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#8A9A95' }}>
+          Already enrolled?{' '}
+          <Link href="/login" style={{ color: '#162B22', fontWeight: '600', textDecoration: 'underline' }}>Sign in</Link>
+        </p>
+      </div>
     </div>
   );
 }

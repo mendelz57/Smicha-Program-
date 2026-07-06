@@ -18,6 +18,7 @@ export default async function Home() {
             Smicha Program
           </span>
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <Link href="/contact" style={{ color: '#C4D4CC', fontSize: '0.9rem', textDecoration: 'none' }}>Contact</Link>
             <Link href="/login" style={{ color: '#C4D4CC', fontSize: '0.9rem', textDecoration: 'none' }}>Sign In</Link>
             <Link href="/register" style={{ background: '#C4912A', color: '#162B22', padding: '0.5rem 1.25rem', fontSize: '0.9rem', fontWeight: '600', textDecoration: 'none' }}>
               Start Free Trial

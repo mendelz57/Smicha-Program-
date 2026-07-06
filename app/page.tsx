@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 export default async function Home() {
   const session = await auth();
-  if (session) {
-    if ((session.user as any).role === 'admin') redirect('/admin');
+  if (session?.user) {
+    if ((session.user as any)?.role === 'admin') redirect('/admin');
     redirect('/student');
   }
 

@@ -71,6 +71,24 @@ export default async function Home() {
         </div>
       </div>
 
+      {/* Sample Video */}
+      <div style={{ background: '#F6F1E7', padding: '4rem 2rem' }}>
+        <div style={{ maxWidth: '780px', margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4912A', fontWeight: '600', marginBottom: '1rem' }}>Sample Class</p>
+          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '2rem', fontWeight: '400', color: '#162B22', marginBottom: '0.75rem' }}>Watch the First Smicha Shiur</h2>
+          <div style={{ width: '2.5rem', height: '2px', background: '#C4912A', margin: '0 auto 2rem' }}></div>
+          <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}>
+            <iframe
+              src="https://www.youtube.com/embed/MCva_JO_dzY"
+              title="First Smicha Shiur"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Subjects */}
       <div style={{ background: '#162B22', padding: '4rem 2rem' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>

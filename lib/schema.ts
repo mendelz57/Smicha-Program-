@@ -14,6 +14,23 @@ export const users = pgTable('users', {
   subscriptionId: text('subscription_id'),
   subscriptionEndsAt: timestamp('subscription_ends_at'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
+  phone: text('phone'),
+  dateOfBirth: text('date_of_birth'),
+  address: text('address'),
+  city: text('city'),
+  state: text('state'),
+  zip: text('zip'),
+  familyStatus: text('family_status'),
+  occupation: text('occupation'),
+  torahEducation: text('torah_education'),
+  shulchanAruchLevel: text('shulchan_aruch_level'),
+  aboutYourself: text('about_yourself'),
+  mothersHebrewName: text('mothers_hebrew_name'),
+  fathersHebrewName: text('fathers_hebrew_name'),
+  referenceRabbi: text('reference_rabbi'),
+  referencePhone: text('reference_phone'),
+  hearAboutUs: text('hear_about_us'),
+  profileComplete: boolean('profile_complete').default(false).notNull(),
 });
 
 export const subjects = pgTable('subjects', {

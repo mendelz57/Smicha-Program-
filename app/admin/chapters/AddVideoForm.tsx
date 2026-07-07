@@ -10,20 +10,15 @@ export default function AddVideoForm({ chapters }: { chapters: Chapter[] }) {
   const [generateQuestions, setGenerateQuestions] = useState(true);
   const router = useRouter();
 
+  const inputStyle = { width: '100%', border: '1px solid #D5CFC4', padding: '0.6rem 0.9rem', fontSize: '0.9rem', outline: 'none', background: '#FDFAF4', color: '#162B22', boxSizing: 'border-box' as const };
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    const res = await fetch('/api/admin/videos', {
+    await fetch('/api/admin/videos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chapterId: parseInt(form.chapterId),
-        title: form.title,
-        youtubeId: form.youtubeId,
-        pdfUrl: form.pdfUrl || null,
-        order: parseInt(form.order),
-        generateQuestions,
-      }),
+      body: JSON.stringify({ chapterId: parseInt(form.chapterId), title: form.title, youtubeId: form.youtubeId, pdfUrl: form.pdfUrl || null, order: parseInt(form.order), generateQuestions }),
     });
     setForm({ chapterId: '', title: '', youtubeId: '', pdfUrl: '', order: '' });
     setLoading(false);
@@ -31,65 +26,24 @@ export default function AddVideoForm({ chapters }: { chapters: Chapter[] }) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow p-6">
-      <h2 className="font-bold text-lg text-gray-800 mb-4">Add Video</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <select
-            value={form.chapterId}
-            onChange={e => setForm({ ...form, chapterId: e.target.value })}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          >
+    <div style={{ background: '#fff', borderTop: '3px solid #C4912A', padding: '1.75rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+      <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', fontWeight: '400', color: '#162B22', marginBottom: '1.25rem' }}>Add Video</h2>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+          <select value={form.chapterId} onChange={e => setForm({ ...form, chapterId: e.target.value })} style={{ ...inputStyle, cursor: 'pointer' }} required>
             <option value="">Select Chapter</option>
             {chapters.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
           </select>
-          <input
-            type="number"
-            placeholder="Order within chapter"
-            value={form.order}
-            onChange={e => setForm({ ...form, order: e.target.value })}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
+          <input type="number" placeholder="Order within chapter" value={form.order} onChange={e => setForm({ ...form, order: e.target.value })} style={inputStyle} required />
         </div>
-        <input
-          type="text"
-          placeholder="Video title"
-          value={form.title}
-          onChange={e => setForm({ ...form, title: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          required
-        />
-        <input
-          type="text"
-          placeholder="YouTube Video ID (e.g. dQw4w9WgXcQ)"
-          value={form.youtubeId}
-          onChange={e => setForm({ ...form, youtubeId: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          required
-        />
-        <input
-          type="url"
-          placeholder="PDF URL (optional — paste link when ready)"
-          value={form.pdfUrl}
-          onChange={e => setForm({ ...form, pdfUrl: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={generateQuestions}
-            onChange={e => setGenerateQuestions(e.target.checked)}
-            className="w-4 h-4 text-indigo-600"
-          />
+        <input type="text" placeholder="Video title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={inputStyle} required />
+        <input type="text" placeholder="YouTube Video ID (e.g. dQw4w9WgXcQ)" value={form.youtubeId} onChange={e => setForm({ ...form, youtubeId: e.target.value })} style={inputStyle} required />
+        <input type="url" placeholder="PDF URL (optional)" value={form.pdfUrl} onChange={e => setForm({ ...form, pdfUrl: e.target.value })} style={inputStyle} />
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.85rem', color: '#4A5A55', cursor: 'pointer' }}>
+          <input type="checkbox" checked={generateQuestions} onChange={e => setGenerateQuestions(e.target.checked)} style={{ width: '1rem', height: '1rem', accentColor: '#C4912A' }} />
           Auto-generate 15 quiz questions (AI — review before publishing)
         </label>
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50"
-        >
+        <button type="submit" disabled={loading} style={{ background: loading ? '#8A9A95' : '#C4912A', color: '#162B22', border: 'none', padding: '0.75rem', fontWeight: '700', fontSize: '0.9rem', cursor: loading ? 'not-allowed' : 'pointer' }}>
           {loading ? 'Adding video...' : 'Add Video'}
         </button>
       </form>

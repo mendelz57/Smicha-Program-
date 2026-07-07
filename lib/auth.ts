@@ -31,4 +31,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    ...authConfig.callbacks,
+    async jwt({ token, user, account, profile }) {
+      if (account?.provider === 'google' && profile?.email) {
+        let dbUser = await db.query.users.findFirst({ where: eq(users.email, profile.email) });
+        if (!dbUser) {
+          const trialEndsAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+          const inserted = await db.insert(users).values({
+            name: (profile as any).name || profile.email,
+            email: profile.email,
+            role: 'student',
+            plan: 'trial',
+            trialEndsAt,
+          }).returning();
+          dbUser = inserted[0];
+        }
+        token.id = String(dbUser.id);
+        token.role = dbUser.role;
+      } else if (user) {
+        token.id = user.id;
+        token.role = (user as any).role;
+      }
+      return token;
+    },
+  },
 });

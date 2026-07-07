@@ -29,10 +29,12 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-indigo-800 text-white px-6 py-4 flex items-center gap-4">
-        <Link href="/student" className="text-indigo-200 hover:text-white text-sm">← Back</Link>
-        <h1 className="text-lg font-bold">Smicha Program</h1>
+    <div style={{ minHeight: '100vh', background: '#F6F1E7', fontFamily: 'system-ui, sans-serif' }}>
+      <header style={{ background: '#162B22', borderBottom: '1px solid rgba(196,145,42,0.2)', padding: '1rem 1.25rem' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <Link href="/student" style={{ color: '#A8C0B8', fontSize: '0.85rem', textDecoration: 'none' }}>← Back</Link>
+          <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em' }}>Smicha Program</span>
+        </div>
       </header>
       <VideoClient video={video} questions={questionsWithOptions} />
     </div>

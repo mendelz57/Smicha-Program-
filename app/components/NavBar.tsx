@@ -12,9 +12,11 @@ export default function NavBar() {
           Smicha Program
         </Link>
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-          {/* Desktop links */}
-          <Link href="/contact" className="hide-mobile" style={{ color: '#C4D4CC', fontSize: '0.85rem', textDecoration: 'none' }}>Contact</Link>
-          <Link href="/login" className="hide-mobile" style={{ color: '#C4D4CC', fontSize: '0.85rem', textDecoration: 'none' }}>Sign In</Link>
+          {/* Desktop links — stacked */}
+          <div className="hide-mobile" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.2rem' }}>
+            <Link href="/login" style={{ color: '#C4D4CC', fontSize: '0.85rem', textDecoration: 'none' }}>Sign In</Link>
+            <Link href="/contact" style={{ color: '#C4D4CC', fontSize: '0.85rem', textDecoration: 'none' }}>Contact</Link>
+          </div>
           <Link href="/register" style={{ background: '#C4912A', color: '#162B22', padding: '0.45rem 1rem', fontSize: '0.85rem', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap' }}>
             Free Trial
           </Link>

@@ -16,7 +16,10 @@ export default async function StudentDashboard() {
     const now = new Date();
     const trialActive = user.plan === 'trial' && user.trialEndsAt && user.trialEndsAt > now;
     const subActive = (user.plan === 'monthly' || user.plan === 'annual') && user.subscriptionEndsAt && user.subscriptionEndsAt > now;
-    if (!trialActive && !subActive) redirect('/payment');
+    if (!trialActive && !subActive) {
+      if (!user.profileComplete) redirect('/enrollment');
+      else redirect('/payment');
+    }
   }
 
   const allSubjects = await db.query.subjects.findMany({ orderBy: (s, { asc }) => [asc(s.order)] });

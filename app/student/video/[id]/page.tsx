@@ -33,7 +33,7 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
       <header style={{ background: '#162B22', borderBottom: '1px solid rgba(196,145,42,0.2)', padding: '1rem 1.25rem' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           <Link href="/student" style={{ color: '#A8C0B8', fontSize: '0.85rem', textDecoration: 'none' }}>← Back</Link>
-          <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em' }}>Smicha Program</span>
+          <Link href="/" style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em', textDecoration: 'none' }}>Smicha Program</Link>
         </div>
       </header>
       <VideoClient video={video} questions={questionsWithOptions} />

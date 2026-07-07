@@ -97,7 +97,12 @@ export default function LoginPage() {
 
             <button
               onClick={() => signIn('google', { callbackUrl: '/student' })}
-              style={{ width: '100%', border: '1px solid #D5CFC4', background: '#fff', padding: '0.75rem', fontSize: '0.9rem', fontWeight: '500', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', color: '#162B22' }}
+              style={{ width: '100%', border: '2px solid #D5CFC4', background: '#fff', padding: '0.75rem', fontSize: '0.9rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', color: '#162B22', boxShadow: '0 2px 6px rgba(0,0,0,0.08)', transition: 'all 0.15s ease', WebkitTapHighlightColor: 'rgba(196,145,42,0.2)' }}
+              onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.97)')}
+              onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
+              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+              onTouchStart={e => (e.currentTarget.style.background = '#F6F1E7')}
+              onTouchEnd={e => (e.currentTarget.style.background = '#fff')}
             >
               <svg style={{ width: '1.1rem', height: '1.1rem' }} viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

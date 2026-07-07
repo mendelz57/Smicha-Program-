@@ -29,6 +29,11 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <SessionProvider>{children}</SessionProvider>
+        <footer style={{ background: '#162B22', borderTop: '1px solid rgba(196,145,42,0.2)', padding: '1.25rem 2rem', textAlign: 'center' }}>
+          <p style={{ color: '#6A8880', fontSize: '0.8rem', fontFamily: 'system-ui, sans-serif' }}>
+            © {new Date().getFullYear()} Smicha Program. All rights reserved.
+          </p>
+        </footer>
       </body>
     </html>
   );

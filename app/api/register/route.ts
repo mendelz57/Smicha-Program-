@@ -27,5 +27,15 @@ export async function POST(req: NextRequest) {
     trialEndsAt,
   });
 
+  await fetch('https://formspree.io/f/xwvdzqnl', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      name: 'New Student Registration',
+      email: email,
+      message: `${name} just created an account and started their free trial.`,
+    }),
+  }).catch(() => {});
+
   return NextResponse.json({ success: true });
 }

@@ -33,7 +33,6 @@ export default async function StudentDashboard() {
     progress.filter(p => p.completed).map(p => p.videoId)
   );
 
-  // Determine which video is currently unlocked (first incomplete)
   const sortedVideos = allVideos.sort((a, b) => {
     const chA = allChapters.find(c => c.id === a.chapterId);
     const chB = allChapters.find(c => c.id === b.chapterId);
@@ -42,41 +41,41 @@ export default async function StudentDashboard() {
     return a.order - b.order;
   });
 
-  let firstLockedIndex = sortedVideos.findIndex(v => !completedVideoIds.has(v.id));
-  const currentVideoId = firstLockedIndex >= 0 ? sortedVideos[firstLockedIndex]?.id : null;
-
   const totalVideos = allVideos.length;
   const completedCount = completedVideoIds.size;
   const progressPct = totalVideos > 0 ? Math.round((completedCount / totalVideos) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-indigo-800 text-white px-6 py-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold">Smicha Program</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-indigo-200 text-sm">{session!.user!.name}</span>
-          <form action={async () => { 'use server'; await signOut({ redirectTo: '/login' }); }}>
-            <button type="submit" className="text-sm text-indigo-200 hover:text-white">Sign out</button>
-          </form>
+    <div style={{ minHeight: '100vh', background: '#F6F1E7', fontFamily: 'system-ui, sans-serif' }}>
+      <header style={{ background: '#162B22', borderBottom: '1px solid rgba(196,145,42,0.2)', padding: '1rem 1.25rem' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em' }}>Smicha Program</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <span style={{ color: '#A8C0B8', fontSize: '0.85rem' }}>{session!.user!.name}</span>
+            <form action={async () => { 'use server'; await signOut({ redirectTo: '/login' }); }}>
+              <button type="submit" style={{ background: 'none', border: 'none', color: '#A8C0B8', fontSize: '0.85rem', cursor: 'pointer' }}>Sign out</button>
+            </form>
+          </div>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div style={{ maxWidth: '860px', margin: '0 auto', padding: '2.5rem 1.5rem' }}>
+
         {/* Progress bar */}
-        <div className="bg-white rounded-xl shadow p-6 mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="font-semibold text-gray-700">Overall Progress</h2>
-            <span className="text-indigo-600 font-bold">{completedCount}/{totalVideos} videos</span>
+        <div style={{ background: '#fff', borderTop: '3px solid #C4912A', padding: '1.75rem 2rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', marginBottom: '2rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+            <span style={{ fontFamily: 'Georgia, serif', fontSize: '1rem', color: '#162B22' }}>Overall Progress</span>
+            <span style={{ color: '#C4912A', fontWeight: '700', fontSize: '0.9rem' }}>{completedCount}/{totalVideos} videos</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
-            <div className="bg-indigo-600 h-3 rounded-full transition-all" style={{ width: `${progressPct}%` }}></div>
+          <div style={{ width: '100%', background: '#E8E2D6', height: '8px' }}>
+            <div style={{ background: '#C4912A', height: '8px', width: `${progressPct}%`, transition: 'width 0.4s ease' }}></div>
           </div>
-          <p className="text-sm text-gray-500 mt-2">{progressPct}% complete</p>
+          <p style={{ fontSize: '0.8rem', color: '#8A9A95', marginTop: '0.5rem' }}>{progressPct}% complete</p>
 
           {completedCount === totalVideos && totalVideos > 0 && (
-            <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-              <p className="text-green-700 font-semibold text-lg">Mazel Tov! You have completed the Smicha Program!</p>
-              <p className="text-green-600 text-sm mt-1">Your certificate will be mailed to you shortly.</p>
+            <div style={{ marginTop: '1rem', background: '#162B22', padding: '1rem 1.5rem', textAlign: 'center' }}>
+              <p style={{ color: '#C4912A', fontFamily: 'Georgia, serif', fontSize: '1.1rem' }}>Mazel Tov! You have completed the Smicha Program!</p>
+              <p style={{ color: '#A8C0B8', fontSize: '0.85rem', marginTop: '0.25rem' }}>Your certificate will be mailed to you shortly.</p>
             </div>
           )}
         </div>
@@ -85,38 +84,28 @@ export default async function StudentDashboard() {
         {allSubjects.map(subject => {
           const subjectChapters = allChapters.filter(c => c.subjectId === subject.id);
           return (
-            <div key={subject.id} className="mb-8">
-              <h2 className="text-xl font-bold text-indigo-800 mb-4 border-b-2 border-indigo-100 pb-2">
+            <div key={subject.id} style={{ marginBottom: '2rem' }}>
+              <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.4rem', fontWeight: '400', color: '#162B22', marginBottom: '1rem', paddingBottom: '0.5rem', borderBottom: '2px solid rgba(196,145,42,0.3)' }}>
                 {subject.name}
               </h2>
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {subjectChapters.map(chapter => {
-                  const chapterVideos = allVideos.filter(v => v.chapterId === chapter.id)
-                    .sort((a, b) => a.order - b.order);
+                  const chapterVideos = allVideos.filter(v => v.chapterId === chapter.id).sort((a, b) => a.order - b.order);
                   return (
-                    <div key={chapter.id} className="bg-white rounded-xl shadow p-5">
-                      <h3 className="font-semibold text-gray-800 mb-3">{chapter.title}</h3>
-                      <div className="space-y-2">
+                    <div key={chapter.id} style={{ background: '#fff', borderTop: '3px solid #162B22', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+                      <h3 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#C4912A', fontWeight: '600', marginBottom: '1rem' }}>{chapter.title}</h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         {chapterVideos.map(video => {
                           const isCompleted = completedVideoIds.has(video.id);
-                          const isCurrent = video.id === currentVideoId;
-                          const isLocked = !isCompleted && !isCurrent;
                           return (
-                            <div key={video.id} className={`flex items-center gap-3 p-3 rounded-lg ${isCompleted ? 'bg-green-50' : isCurrent ? 'bg-indigo-50 border border-indigo-200' : 'bg-gray-50'}`}>
-                              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${isCompleted ? 'bg-green-500 text-white' : isCurrent ? 'bg-indigo-600 text-white' : 'bg-gray-300 text-gray-500'}`}>
-                                {isCompleted ? '✓' : isLocked ? '🔒' : '▶'}
+                            <div key={video.id} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', background: isCompleted ? 'rgba(196,145,42,0.08)' : '#F6F1E7', borderLeft: isCompleted ? '3px solid #C4912A' : '3px solid transparent' }}>
+                              <div style={{ width: '2rem', height: '2rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: '700', flexShrink: 0, background: isCompleted ? '#C4912A' : '#162B22', color: '#fff' }}>
+                                {isCompleted ? '✓' : '▶'}
                               </div>
-                              <div className="flex-1">
-                                <p className={`font-medium text-sm ${isLocked ? 'text-gray-400' : 'text-gray-800'}`}>{video.title}</p>
-                              </div>
-                              {(isCompleted || isCurrent) && (
-                                <Link
-                                  href={`/student/video/${video.id}`}
-                                  className={`text-sm px-4 py-1.5 rounded-lg font-medium ${isCompleted ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
-                                >
-                                  {isCompleted ? 'Review' : 'Start'}
-                                </Link>
-                              )}
+                              <p style={{ flex: 1, fontSize: '0.9rem', fontWeight: '500', color: '#162B22' }}>{video.title}</p>
+                              <Link href={`/student/video/${video.id}`} style={{ fontSize: '0.82rem', padding: '0.4rem 1rem', fontWeight: '600', textDecoration: 'none', background: isCompleted ? 'transparent' : '#C4912A', color: isCompleted ? '#C4912A' : '#162B22', border: isCompleted ? '1px solid #C4912A' : 'none' }}>
+                                {isCompleted ? 'Review' : 'Start'}
+                              </Link>
                             </div>
                           );
                         })}
@@ -130,8 +119,8 @@ export default async function StudentDashboard() {
         })}
 
         {allSubjects.length === 0 && (
-          <div className="text-center py-16 text-gray-400">
-            <p className="text-lg">Course content coming soon.</p>
+          <div style={{ textAlign: 'center', padding: '4rem', color: '#8A9A95' }}>
+            <p>Course content coming soon.</p>
           </div>
         )}
       </div>

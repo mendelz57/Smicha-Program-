@@ -131,7 +131,7 @@ export default function RegisterPage() {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {['7-day free trial — no credit card', 'Full access to all 4 subjects', '$300/month or $2,880/year after trial'].map(item => (
                 <li key={item} style={{ display: 'flex', gap: '0.6rem', fontSize: '0.85rem', color: '#A8C0B8' }}>
-                  <span style={{ color: '#C4912A' }}>✦</span> {item}
+                  <span style={{ color: '#C4912A', fontSize: '0.7rem' }}>—</span> {item}
                 </li>
               ))}
             </ul>

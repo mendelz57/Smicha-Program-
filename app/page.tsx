@@ -42,8 +42,8 @@ export default async function Home() {
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             {['Shiurim by Rabbi Mendel Zajac', 'Tests by Rabbi Chazan and Rabbi Tauber', '15-question quiz per video', '80% passing score to advance'].map(item => (
-              <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontSize: '0.9rem', color: '#3A4A45' }}>
-                <span style={{ color: '#C4912A', marginTop: '2px', flexShrink: 0 }}>✦</span> {item}
+              <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontSize: '0.9rem', color: '#3A4A45', paddingBottom: '0.4rem', borderBottom: '1px solid #EDE8DF' }}>
+                <span style={{ color: '#C4912A', marginTop: '1px', flexShrink: 0, fontSize: '0.7rem' }}>—</span> {item}
               </li>
             ))}
           </ul>

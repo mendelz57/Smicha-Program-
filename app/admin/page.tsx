@@ -31,7 +31,7 @@ export default async function AdminDashboard() {
   return (
     <div style={{ minHeight: '100vh', background: '#F6F1E7', fontFamily: 'system-ui, sans-serif' }}>
       <header style={{ background: '#162B22', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em' }}>Smicha Program — Admin</span>
+        <Link href="/" style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em', textDecoration: 'none' }}>Smicha Program — Admin</Link>
         <form action={async () => { 'use server'; await signOut({ redirectTo: '/login' }); }}>
           <button type="submit" style={{ background: 'none', border: 'none', color: '#A8C0B8', fontSize: '0.85rem', cursor: 'pointer' }}>Sign out</button>
         </form>

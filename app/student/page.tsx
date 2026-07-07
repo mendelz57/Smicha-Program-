@@ -49,7 +49,7 @@ export default async function StudentDashboard() {
     <div style={{ minHeight: '100vh', background: '#F6F1E7', fontFamily: 'system-ui, sans-serif' }}>
       <header style={{ background: '#162B22', borderBottom: '1px solid rgba(196,145,42,0.2)', padding: '1rem 1.25rem' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em' }}>Smicha Program</span>
+          <Link href="/" style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', color: '#C4912A', letterSpacing: '0.05em', textDecoration: 'none' }}>Smicha Program</Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <Link href="/student/settings" style={{ color: '#C4912A', fontSize: '0.85rem', textDecoration: 'none', borderBottom: '1px solid rgba(196,145,42,0.4)' }}>{session!.user!.name}</Link>
             <form action={async () => { 'use server'; await signOut({ redirectTo: '/login' }); }}>

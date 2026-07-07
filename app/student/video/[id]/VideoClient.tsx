@@ -54,112 +54,91 @@ export default function VideoClient({ video, questions }: { video: Video; questi
 
   const passed = score >= 80;
 
+  const btnPrimary: React.CSSProperties = { background: '#162B22', color: '#F6F1E7', border: 'none', padding: '0.8rem 2rem', fontWeight: '700', fontSize: '0.95rem', cursor: 'pointer', letterSpacing: '0.02em' };
+  const btnGold: React.CSSProperties = { background: '#C4912A', color: '#162B22', border: 'none', padding: '0.8rem 2rem', fontWeight: '700', fontSize: '0.95rem', cursor: 'pointer', letterSpacing: '0.02em' };
+  const btnOutline: React.CSSProperties = { background: 'transparent', color: '#162B22', border: '1px solid #C4912A', padding: '0.8rem 2rem', fontWeight: '600', fontSize: '0.95rem', cursor: 'pointer' };
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2.5rem 1.5rem' }}>
       {!showQuiz ? (
         <div>
-          <h1 className="text-2xl font-bold text-indigo-800 mb-6">{video.title}</h1>
-          {/* YouTube embed */}
-          <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg mb-6">
+          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: '1.6rem', fontWeight: '400', color: '#162B22', marginBottom: '1.5rem' }}>{video.title}</h1>
+
+          <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)', marginBottom: '1.5rem' }}>
             <iframe
               src={`https://www.youtube.com/embed/${video.youtubeId}`}
               title={video.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              className="w-full h-full"
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
             />
           </div>
-          {/* PDF Section */}
+
           {video.pdfUrl && (
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="font-semibold text-gray-700">Study Material</h2>
-                <a
-                  href={video.pdfUrl}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm bg-indigo-50 text-indigo-700 border border-indigo-200 px-3 py-1.5 rounded-lg hover:bg-indigo-100 transition"
-                >
+            <div style={{ marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#8A9A95', fontWeight: '600' }}>Study Material</span>
+                <a href={video.pdfUrl} download target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.85rem', color: '#C4912A', textDecoration: 'none', border: '1px solid #C4912A', padding: '0.35rem 0.9rem' }}>
                   ⬇ Download PDF
                 </a>
               </div>
-              <iframe
-                src={video.pdfUrl}
-                className="w-full rounded-xl border border-gray-200"
-                style={{ height: '500px' }}
-                title="Study Material PDF"
-              />
+              <iframe src={video.pdfUrl} style={{ width: '100%', height: '500px', border: '1px solid #D5CFC4' }} title="Study Material PDF" />
             </div>
           )}
 
           {questions.length > 0 ? (
-            <button
-              onClick={() => setShowQuiz(true)}
-              className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition text-lg"
-            >
+            <button onClick={() => setShowQuiz(true)} style={{ ...btnGold, width: '100%', padding: '1rem', fontSize: '1rem' }}>
               Take Quiz ({questions.length} questions)
             </button>
           ) : (
-            <p className="text-center text-gray-400">Quiz questions coming soon.</p>
+            <p style={{ textAlign: 'center', color: '#8A9A95' }}>Quiz questions coming soon.</p>
           )}
         </div>
       ) : (
         <div>
-          <h2 className="text-xl font-bold text-indigo-800 mb-2">Quiz: {video.title}</h2>
-          <p className="text-gray-500 mb-6 text-sm">Answer all {questions.length} questions. You need 80% to advance.</p>
+          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.4rem', fontWeight: '400', color: '#162B22', marginBottom: '0.5rem' }}>Quiz: {video.title}</h2>
+          <p style={{ color: '#8A9A95', fontSize: '0.85rem', marginBottom: '1.5rem' }}>Answer all {questions.length} questions. You need 80% to pass.</p>
 
           {submitted && (
-            <div className={`mb-6 p-5 rounded-xl text-center ${passed ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
-              <p className={`text-2xl font-bold ${passed ? 'text-green-700' : 'text-red-700'}`}>
+            <div style={{ marginBottom: '1.5rem', padding: '1.5rem', textAlign: 'center', background: passed ? 'rgba(196,145,42,0.08)' : 'rgba(192,57,43,0.06)', borderTop: `3px solid ${passed ? '#C4912A' : '#C0392B'}` }}>
+              <p style={{ fontSize: '1.8rem', fontWeight: '700', color: passed ? '#C4912A' : '#C0392B', fontFamily: 'Georgia, serif' }}>
                 {score}% — {passed ? 'Passed!' : 'Not quite'}
               </p>
-              <p className={`mt-1 text-sm ${passed ? 'text-green-600' : 'text-red-600'}`}>
-                {passed ? 'Great job! You can now proceed to the next video.' : 'You need 80% to advance. Review the video and try again.'}
+              <p style={{ color: '#4A5A55', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                {passed ? 'Great job! Your progress has been recorded.' : 'You need 80% to pass. Review the video and try again.'}
               </p>
-              {passed ? (
-                <button
-                  onClick={() => router.push('/student')}
-                  className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700"
-                >
-                  Continue →
-                </button>
-              ) : (
-                <div className="flex gap-3 justify-center mt-4">
-                  <button onClick={handleRetry} className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700">
-                    Try Again
-                  </button>
-                  <button onClick={() => setShowQuiz(false)} className="border border-gray-300 px-6 py-2 rounded-lg font-semibold hover:bg-gray-50">
-                    Rewatch Video
-                  </button>
-                </div>
-              )}
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.25rem' }}>
+                {passed ? (
+                  <button onClick={() => router.push('/student')} style={btnPrimary}>Back to Dashboard →</button>
+                ) : (
+                  <>
+                    <button onClick={handleRetry} style={btnGold}>Try Again</button>
+                    <button onClick={() => setShowQuiz(false)} style={btnOutline}>Rewatch Video</button>
+                  </>
+                )}
+              </div>
             </div>
           )}
 
-          <div className="space-y-6">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {questions.sort((a, b) => a.order - b.order).map((q, idx) => (
-              <div key={q.id} className="bg-white rounded-xl shadow p-5">
-                <p className="font-semibold text-gray-800 mb-3">
+              <div key={q.id} style={{ background: '#fff', borderTop: '3px solid #162B22', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                <p style={{ fontWeight: '600', color: '#162B22', marginBottom: '1rem', fontSize: '0.95rem' }}>
                   {idx + 1}. {q.text}
                 </p>
-                <div className="space-y-2">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {q.options.map(opt => {
                     const selected = answers[q.id] === opt.id;
-                    let optClass = 'border border-gray-200 bg-gray-50 hover:bg-indigo-50 hover:border-indigo-300';
+                    let bg = '#F6F1E7', border = '1px solid #D5CFC4', color = '#162B22';
                     if (submitted) {
-                      if (opt.isCorrect) optClass = 'border border-green-400 bg-green-50';
-                      else if (selected && !opt.isCorrect) optClass = 'border border-red-400 bg-red-50';
-                      else optClass = 'border border-gray-200 bg-gray-50';
+                      if (opt.isCorrect) { bg = 'rgba(46,125,80,0.1)'; border = '1px solid #2E7D50'; color = '#2E7D50'; }
+                      else if (selected && !opt.isCorrect) { bg = 'rgba(192,57,43,0.08)'; border = '1px solid #C0392B'; color = '#C0392B'; }
                     } else if (selected) {
-                      optClass = 'border border-indigo-500 bg-indigo-50';
+                      bg = 'rgba(196,145,42,0.12)'; border = '1px solid #C4912A';
                     }
                     return (
-                      <button
-                        key={opt.id}
-                        onClick={() => handleAnswer(q.id, opt.id)}
-                        className={`w-full text-left px-4 py-3 rounded-lg transition text-sm ${optClass}`}
-                      >
+                      <button key={opt.id} onClick={() => handleAnswer(q.id, opt.id)}
+                        style={{ width: '100%', textAlign: 'left', padding: '0.75rem 1rem', background: bg, border, color, fontSize: '0.9rem', cursor: submitted ? 'default' : 'pointer' }}>
                         {opt.text}
                       </button>
                     );
@@ -170,11 +149,8 @@ export default function VideoClient({ video, questions }: { video: Video; questi
           </div>
 
           {!submitted && (
-            <button
-              onClick={handleSubmit}
-              disabled={loading || Object.keys(answers).length < questions.length}
-              className="mt-6 w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 disabled:opacity-50 transition text-lg"
-            >
+            <button onClick={handleSubmit} disabled={loading || Object.keys(answers).length < questions.length}
+              style={{ ...btnPrimary, width: '100%', padding: '1rem', fontSize: '1rem', marginTop: '1.5rem', opacity: Object.keys(answers).length < questions.length ? 0.5 : 1 }}>
               Submit Quiz
             </button>
           )}

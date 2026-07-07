@@ -46,55 +46,36 @@ export default function QuestionsEditor({ video, questions }: { video: Video; qu
     } : q));
   }
 
+  const inputStyle = { border: '1px solid #D5CFC4', padding: '0.5rem 0.75rem', fontSize: '0.875rem', outline: 'none', background: '#FDFAF4', color: '#162B22', width: '100%', boxSizing: 'border-box' as const };
+
   return (
     <div>
-      <h2 className="text-lg font-bold text-indigo-800 mb-4">{video.title} — {localQuestions.length} questions</h2>
+      <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.1rem', fontWeight: '400', color: '#162B22', marginBottom: '1.25rem' }}>{video.title} — {localQuestions.length} questions</h2>
 
       {localQuestions.length === 0 && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-700 text-sm">
+        <div style={{ background: 'rgba(196,145,42,0.1)', borderLeft: '3px solid #C4912A', padding: '1rem 1.25rem', color: '#162B22', fontSize: '0.875rem' }}>
           No questions yet. Add a video with AI generation enabled, or add questions manually.
         </div>
       )}
 
-      <div className="space-y-6">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
         {localQuestions.sort((a, b) => a.order - b.order).map((q, idx) => (
-          <div key={q.id} className="bg-white rounded-xl shadow p-5">
-            <div className="flex items-start justify-between gap-3 mb-3">
-              <span className="text-indigo-600 font-bold text-sm mt-2">Q{idx + 1}</span>
-              <textarea
-                value={q.text}
-                onChange={e => updateQuestionText(q.id, e.target.value)}
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-                rows={2}
-              />
-              <button onClick={() => deleteQuestion(q.id)} className="text-red-400 hover:text-red-600 text-sm mt-2">✕</button>
+          <div key={q.id} style={{ background: '#fff', borderTop: '3px solid #162B22', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1rem' }}>
+              <span style={{ color: '#C4912A', fontWeight: '700', fontSize: '0.85rem', marginTop: '0.5rem', flexShrink: 0 }}>Q{idx + 1}</span>
+              <textarea value={q.text} onChange={e => updateQuestionText(q.id, e.target.value)} style={{ ...inputStyle, flex: 1, resize: 'none' }} rows={2} />
+              <button onClick={() => deleteQuestion(q.id)} style={{ background: 'none', border: 'none', color: '#C0392B', cursor: 'pointer', fontSize: '1rem', marginTop: '0.25rem' }}>✕</button>
             </div>
-            <div className="space-y-2 ml-6">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginLeft: '1.75rem' }}>
               {q.options.map((opt, oi) => (
-                <div key={opt.id} className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name={`correct-${q.id}`}
-                    checked={opt.isCorrect}
-                    onChange={() => setCorrectOption(q.id, opt.id)}
-                    className="w-4 h-4 text-indigo-600"
-                  />
-                  <input
-                    type="text"
-                    value={opt.text}
-                    onChange={e => updateOptionText(q.id, opt.id, e.target.value)}
-                    className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400"
-                    placeholder={`Option ${oi + 1}`}
-                  />
-                  {opt.isCorrect && <span className="text-green-500 text-xs font-medium">Correct</span>}
+                <div key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <input type="radio" name={`correct-${q.id}`} checked={opt.isCorrect} onChange={() => setCorrectOption(q.id, opt.id)} style={{ width: '1rem', height: '1rem', accentColor: '#C4912A', cursor: 'pointer', flexShrink: 0 }} />
+                  <input type="text" value={opt.text} onChange={e => updateOptionText(q.id, opt.id, e.target.value)} style={{ ...inputStyle, flex: 1 }} placeholder={`Option ${oi + 1}`} />
+                  {opt.isCorrect && <span style={{ color: '#2E7D50', fontSize: '0.75rem', fontWeight: '600', flexShrink: 0 }}>Correct</span>}
                 </div>
               ))}
             </div>
-            <button
-              onClick={() => saveQuestion(q)}
-              disabled={saving === q.id}
-              className="mt-3 ml-6 text-sm bg-indigo-600 text-white px-4 py-1.5 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
-            >
+            <button onClick={() => saveQuestion(q)} disabled={saving === q.id} style={{ marginTop: '1rem', marginLeft: '1.75rem', background: saving === q.id ? '#8A9A95' : '#C4912A', color: '#162B22', border: 'none', padding: '0.4rem 1.25rem', fontWeight: '700', fontSize: '0.85rem', cursor: saving === q.id ? 'not-allowed' : 'pointer' }}>
               {saving === q.id ? 'Saving...' : 'Save'}
             </button>
           </div>

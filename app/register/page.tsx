@@ -5,19 +5,32 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const passwordRules = [
+    { label: 'At least 8 characters', test: (p: string) => p.length >= 8 },
+    { label: 'One uppercase letter', test: (p: string) => /[A-Z]/.test(p) },
+    { label: 'One number', test: (p: string) => /[0-9]/.test(p) },
+    { label: 'One special character (!@#$...)', test: (p: string) => /[^A-Za-z0-9]/.test(p) },
+  ];
+  const passwordValid = passwordRules.every(r => r.test(form.password));
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError('');
+    if (!passwordValid) {
+      setError('Please meet all password requirements.');
+      setLoading(false);
+      return;
+    }
     const res = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ ...form, name: `${form.firstName} ${form.lastName}` }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -74,9 +87,15 @@ export default function RegisterPage() {
           {/* Card */}
           <div style={{ background: '#fff', borderTop: '3px solid #C4912A', padding: '2.5rem', boxShadow: '0 2px 16px rgba(0,0,0,0.07)' }}>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <div>
-                <label style={labelStyle}>Full Name</label>
-                <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} style={inputStyle} required />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                <div>
+                  <label style={labelStyle}>First Name</label>
+                  <input type="text" value={form.firstName} onChange={e => setForm({ ...form, firstName: e.target.value })} style={inputStyle} required />
+                </div>
+                <div>
+                  <label style={labelStyle}>Last Name</label>
+                  <input type="text" value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} style={inputStyle} required />
+                </div>
               </div>
               <div>
                 <label style={labelStyle}>Email</label>
@@ -84,7 +103,16 @@ export default function RegisterPage() {
               </div>
               <div>
                 <label style={labelStyle}>Password</label>
-                <input type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} style={inputStyle} required minLength={6} />
+                <input type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} style={inputStyle} required />
+                {form.password.length > 0 && (
+                  <ul style={{ listStyle: 'none', padding: '0.6rem 0 0', margin: 0, display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                    {passwordRules.map(r => (
+                      <li key={r.label} style={{ fontSize: '0.78rem', color: r.test(form.password) ? '#2E7D50' : '#8A9A95', display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
+                        <span>{r.test(form.password) ? '✓' : '○'}</span> {r.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
               {error && <p style={{ color: '#C0392B', fontSize: '0.85rem' }}>{error}</p>}
               <button

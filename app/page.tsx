@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import Link from 'next/link';
 import NavBar from './components/NavBar';
@@ -7,10 +6,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const session = await auth();
-  if (session?.user) {
-    if ((session.user as any)?.role === 'admin') redirect('/admin');
-    redirect('/student');
-  }
+  const role = (session?.user as any)?.role;
 
   return (
     <div className="min-h-screen" style={{ fontFamily: 'system-ui, sans-serif', background: '#F6F1E7' }}>
@@ -104,15 +100,27 @@ export default async function Home() {
 
       {/* Final CTA */}
       <div style={{ textAlign: 'center', padding: '5rem 2rem', background: '#F6F1E7' }}>
-        <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '2rem', fontWeight: '400', color: '#162B22', marginBottom: '1rem' }}>Ready to begin?</h2>
-        <p style={{ color: '#4A5A55', marginBottom: '2rem', fontSize: '1rem' }}>Start with a free 7-day trial. No credit card required.</p>
-        <Link href="/register" style={{ display: 'inline-block', background: '#162B22', color: '#F6F1E7', padding: '0.9rem 2.5rem', fontWeight: '700', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.02em' }}>
-          Start Free Trial
-        </Link>
-        <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#8A9A95' }}>
-          Already enrolled?{' '}
-          <Link href="/login" style={{ color: '#162B22', fontWeight: '600', textDecoration: 'underline' }}>Sign in</Link>
-        </p>
+        {role ? (
+          <>
+            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '2rem', fontWeight: '400', color: '#162B22', marginBottom: '1rem' }}>Welcome back!</h2>
+            <p style={{ color: '#4A5A55', marginBottom: '2rem', fontSize: '1rem' }}>Continue where you left off.</p>
+            <Link href={role === 'admin' ? '/admin' : '/student'} style={{ display: 'inline-block', background: '#162B22', color: '#F6F1E7', padding: '0.9rem 2.5rem', fontWeight: '700', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.02em' }}>
+              Go to Dashboard
+            </Link>
+          </>
+        ) : (
+          <>
+            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '2rem', fontWeight: '400', color: '#162B22', marginBottom: '1rem' }}>Ready to begin?</h2>
+            <p style={{ color: '#4A5A55', marginBottom: '2rem', fontSize: '1rem' }}>Start with a free 7-day trial. No credit card required.</p>
+            <Link href="/register" style={{ display: 'inline-block', background: '#162B22', color: '#F6F1E7', padding: '0.9rem 2.5rem', fontWeight: '700', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.02em' }}>
+              Start Free Trial
+            </Link>
+            <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#8A9A95' }}>
+              Already enrolled?{' '}
+              <Link href="/login" style={{ color: '#162B22', fontWeight: '600', textDecoration: 'underline' }}>Sign in</Link>
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

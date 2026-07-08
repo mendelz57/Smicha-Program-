@@ -3,6 +3,8 @@ import { auth } from '@/lib/auth';
 import Link from 'next/link';
 import NavBar from './components/NavBar';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const session = await auth();
   if (session?.user) {
